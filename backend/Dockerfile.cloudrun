@@ -11,8 +11,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Pre-download ML models at build time (not at runtime)
 RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"
-RUN python -c "import textblob; textblob.download_corpora()"
-
+RUN python -m textblob.download_corpora
 COPY . .
 
 # Certs directory — populated at runtime from env vars
