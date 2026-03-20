@@ -71,12 +71,11 @@ class PostConsumer:
                 consumer = KafkaConsumer(
                     self.topic,
                     value_deserializer=lambda m: json.loads(m.decode("utf-8")),
-                    **config,
-                )
                     auto_offset_reset="latest",
                     enable_auto_commit=True,
                     group_id="feedpulse-consumer",
                     consumer_timeout_ms=1000,
+                    **config,
                 )
                 print(f"[Consumer] Connected to Kafka topic '{self.topic}'")
                 return consumer
