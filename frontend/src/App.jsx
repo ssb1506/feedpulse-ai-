@@ -7,7 +7,7 @@ import TrendingBar from './components/TrendingBar'
 import StatsBar from './components/StatsBar'
 import { Activity, MessageSquare, BarChart3 } from 'lucide-react'
 
-const API = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+const API = 'https://feedpulse-backend-1028950015056.us-central1.run.app'
 
 export default function App() {
   const { posts, connected } = useWebSocket()

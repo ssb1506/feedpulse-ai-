@@ -1,3 +1,4 @@
+# Backend Dockerfile — optimized for GCP Cloud Run
 FROM python:3.11-slim
 
 WORKDIR /app
@@ -8,15 +9,21 @@ RUN apt-get update && apt-get install -y gcc g++ && rm -rf /var/lib/apt/lists/*
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Download sentence-transformers model at build time (avoids runtime download)
+# Pre-download ML models at build time (not at runtime)
 RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"
-
-# Download TextBlob corpora
-RUN python -c "import textblob; textblob.download_corpora()"
-
+RUN python -m textblob.download_corpora
 COPY . .
 
-# Create iceberg warehouse directory
+# Certs directory — populated at runtime from env vars
+RUN mkdir -p /app/certs
+
 RUN mkdir -p /app/iceberg_warehouse
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+# Cloud Run uses PORT env variable
+ENV PORT=8080
+EXPOSE 8080
+
+RUN python -m textblob.download_corpora
+RUN python -m nltk.downloader averaged_perceptron_tagger_eng punkt
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
+

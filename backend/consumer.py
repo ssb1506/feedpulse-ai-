@@ -33,13 +33,10 @@ def analyze_sentiment(text: str) -> dict:
 
 def detect_trending_words(text: str) -> list[str]:
     """Extract notable words from a post (simple keyword extraction)."""
-    blob = TextBlob(text)
-    # Get nouns and adjectives as potential trending words
-    words = []
-    for word, tag in blob.tags:
-        if tag in ("NN", "NNP", "JJ") and len(word) > 3 and not word.startswith("#"):
-            words.append(word.lower())
-    return words
+    import re
+    words = re.findall(r"[a-zA-Z]{4,}", text.lower())
+    stopwords = {"this","that","with","have","from","they","what","just","been","were","will","your","about","there","their","would","could","should","really","very","some","more","than","then"}
+    return [w for w in words if w not in stopwords]
 
 
 from kafka_config import get_consumer_config
@@ -154,3 +151,17 @@ class PostConsumer:
             counts[label] = counts.get(label, 0) + 1
 
         return {**counts, "total": len(self.recent_posts)}
+
+
+if __name__ == "__main__":
+    import time
+    print("[Consumer] Starting up...")
+    consumer = PostConsumer()
+    print("[Consumer] Connected to Kafka, waiting for posts...")
+    consumer.start()
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        consumer.stop()
+        print("[Consumer] Stopped.")

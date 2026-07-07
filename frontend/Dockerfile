@@ -1,11 +1,26 @@
-FROM node:18-alpine
+# Frontend Dockerfile for GCP Cloud Run
+# Stage 1: Build React app
+FROM node:20-alpine AS build
 
 WORKDIR /app
-
 COPY package.json .
 RUN npm install
 
-COPY . .
+# Accept backend URL at build time
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
 
-EXPOSE 3000
-CMD ["npm", "run", "dev"]
+COPY . .
+RUN npm run build
+
+# Stage 2: Serve with nginx
+FROM nginx:alpine
+
+# Copy built files
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Custom nginx config for SPA routing + Cloud Run PORT
+COPY nginx.conf /etc/nginx/templates/default.conf.template
+
+EXPOSE 8080
+CMD ["nginx", "-g", "daemon off;"]

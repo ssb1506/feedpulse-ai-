@@ -39,7 +39,7 @@ POSTS_PARTITION = PartitionSpec(
     PartitionField(source_id=5, field_id=1001, transform=HourTransform(), name="timestamp_hour")
 )
 
-WAREHOUSE_PATH = "/app/iceberg_warehouse"
+WAREHOUSE_PATH = "/tmp/iceberg_warehouse"
 CATALOG_DB = f"{WAREHOUSE_PATH}/catalog.db"
 
 

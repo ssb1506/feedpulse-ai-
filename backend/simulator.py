@@ -146,3 +146,16 @@ class PostSimulator:
             self.producer.flush()
             # Random delay between 0.5 and 2 seconds
             time.sleep(random.uniform(0.5, 2.0))
+
+
+if __name__ == "__main__":
+    print("[Simulator] Starting up...")
+    sim = PostSimulator()
+    sim.start()
+    print("[Simulator] Running! Press Ctrl+C to stop.")
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        sim.stop()
+        print("[Simulator] Stopped.")

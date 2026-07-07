@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+const API_BASE = 'https://feedpulse-backend-1028950015056.us-central1.run.app'
 const WS_URL = API_BASE.replace('https://', 'wss://').replace('http://', 'ws://') + '/ws/feed'
 
 export default function useWebSocket() {

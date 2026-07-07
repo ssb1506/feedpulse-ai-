@@ -92,6 +92,6 @@ def get_consumer_config(group_id: str = "feedpulse-consumer") -> dict:
         "auto_offset_reset": "latest",
         "enable_auto_commit": True,
         "group_id": group_id,
-        "consumer_timeout_ms": 1000,
+        "consumer_timeout_ms": -1,
     })
     return config
