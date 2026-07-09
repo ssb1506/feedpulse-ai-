@@ -1,5 +1,8 @@
 # FeedPulse AI 🔴
 
+🌐 **Live Demo:** [feedpulse-frontend-1028950015056.us-central1.run.app](https://feedpulse-frontend-1028950015056.us-central1.run.app)
+🔗 **Backend API:** [feedpulse-backend-1028950015056.us-central1.run.app](https://feedpulse-backend-1028950015056.us-central1.run.app)
+
 **Real-time social media analytics platform with AI-powered insights**
 
 FeedPulse AI streams social media posts through Apache Kafka, analyzes sentiment and trending topics in real-time, stores everything in an Apache Iceberg lakehouse for time-travel analytics, and provides an AI assistant (LangChain + Gemini) that can search posts and query historical trends through natural conversation.
@@ -63,7 +66,7 @@ FeedPulse AI streams social media posts through Apache Kafka, analyzes sentiment
 
 ```bash
 # Clone the repo
-git clone https://github.com/YOUR_USERNAME/feedpulse-ai.git
+git clone https://github.com/ssb1506/feedpulse-ai.git
 cd feedpulse-ai
 
 # Set your API key (optional — works without it in fallback mode)
